@@ -10,7 +10,7 @@ app.use(cors())
 
 connectDB();
 
-
+//add a new coach. convenient function to create an empty coach
 app.post('/addCoach', (request, response) => {
 
     let arr = [];
@@ -35,7 +35,7 @@ app.post('/addCoach', (request, response) => {
 let totalSeats = [];
 
 
-
+// for getting the coach
 app.get('/getCoach/:id', (request, response) => {
     let coachId = request.params['id']
     Coach.find({ 'coachid': coachId }, (err, coach) => {
@@ -48,12 +48,12 @@ app.get('/getCoach/:id', (request, response) => {
     })
 })
 
-
+// for checking if backend server is working
 app.get('/', (request, response) => {
     response.end('Hello world')
 })
 
-
+// calculating the empty seats and alloting them to the user
 const calculation = (arr, tickets) => new Promise(async (resolve, reject) => {
 
     let rowAvailable = Array(12).fill(0)
@@ -136,7 +136,7 @@ const calculation = (arr, tickets) => new Promise(async (resolve, reject) => {
 })
 
 
-
+//for booking seats if available
 let requestedSeats;
 app.post('/bookSeats', bodyParser.json(), (request, response) => {
     console.log(request.body)
