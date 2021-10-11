@@ -116,7 +116,7 @@ app.post('/bookSeats', bodyParser.json(), (request, response) => {
 
 
 
-const PORT = 3001
-app.listen(PORT, () => {
-    console.log(`app is listening on port ${PORT}`)
+
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`app is listening on port ${process.env.PORT}`)
 })
