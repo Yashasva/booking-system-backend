@@ -23,7 +23,7 @@ app.post('/addCoach', (request, response) => {
     }
 
     const coach = new Coach({
-        coachid: "4",
+        coachid: "1",
         seats: arr
     })
 
