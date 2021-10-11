@@ -93,6 +93,8 @@ const calculation = (arr, tickets) => new Promise(async (resolve, reject) => {
         }
     }
 
+    let sum = 0;
+
     for(let i=0;i<12;i++){
         sum = sum + rowAvailable[i];
     }
@@ -100,18 +102,33 @@ const calculation = (arr, tickets) => new Promise(async (resolve, reject) => {
     if(sum < tickets){
         resolve(false);
     }
-
-    let i = 0;
-    while(tickets){
-        for (let j = 0; j < 7; j++) {
-            if (i*7+j<80 && arr[i * 7 + j].status === false && tickets) {
-                avail.push({ seatid: arr[i * 7 + j].seatid });
-                arr[i * 7 + j].status = true;
-                tickets--;
+    if(sum >= tickets && tickets){
+        let i = 0;
+        let avail = [];
+        while(tickets){
+            for (let j = 0; j < 7; j++) {
+                if (i*7+j<80 && arr[i * 7 + j].status === false && tickets) {
+                    avail.push({ seatid: arr[i * 7 + j].seatid });
+                    arr[i * 7 + j].status = true;
+                    tickets--;
+                }
             }
+
+            i++;
         }
 
-        i++;
+        const user = new User({
+            seats: avail
+        })
+        console.log("1");
+        user.save().then(savedBooking => {
+            console.log(savedBooking)
+        })
+
+        const coachUpdated = await Coach.findOneAndUpdate({coachid:'1'},{seats: arr}, {new: true})
+        console.log(coachUpdated)
+
+        resolve(true);
     }
 
     resolve(true);
