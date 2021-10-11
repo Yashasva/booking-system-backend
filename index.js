@@ -69,7 +69,7 @@ const calculation = (arr, tickets) => new Promise(async (resolve, reject) => {
         if (tickets <= rowAvailable[i] && tickets) {
             let avail = [];
             for (let j = 0; j < 7; j++) {
-                if (arr[i * 7 + j].status === false && tickets) {
+                if (i*7+j<80 && arr[i * 7 + j].status === false && tickets) {
                     avail.push({ seatid: arr[i * 7 + j].seatid });
                     arr[i * 7 + j].status = true;
                     tickets--;
@@ -93,7 +93,28 @@ const calculation = (arr, tickets) => new Promise(async (resolve, reject) => {
         }
     }
 
-    resolve(false);
+    for(let i=0;i<12;i++){
+        sum = sum + rowAvailable[i];
+    }
+
+    if(sum < tickets){
+        resolve(false);
+    }
+
+    let i = 0;
+    while(tickets){
+        for (let j = 0; j < 7; j++) {
+            if (i*7+j<80 && arr[i * 7 + j].status === false && tickets) {
+                avail.push({ seatid: arr[i * 7 + j].seatid });
+                arr[i * 7 + j].status = true;
+                tickets--;
+            }
+        }
+
+        i++;
+    }
+
+    resolve(true);
 
 })
 
