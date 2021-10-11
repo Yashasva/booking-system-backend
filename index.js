@@ -143,9 +143,9 @@ app.post('/bookSeats', bodyParser.json(), (request, response) => {
     requestedSeats = request.body.seats
     Coach.find({ 'coachid': '1' }, async (err, coach) => {
         totalSeats = coach[0].seats
-        await calculation(totalSeats, requestedSeats)
-
-        response.send("It works")
+        const status = await calculation(totalSeats, requestedSeats)
+        
+        response.send(status)
     })
 
 })
